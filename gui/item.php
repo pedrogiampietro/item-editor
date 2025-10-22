@@ -10,6 +10,10 @@ if (!empty($_POST["delete"])) {
 	$stmt->bind_param('i', $deleteServerId);
 	$stmt->execute();
 	$stmt->close();
+	
+	echo "<div class='alert alert-success'>✓ Item deleted successfully!</div>";
+	echo "<script>setTimeout(function() { window.location.href = '?page=editor&subpage=items'; }, 1500);</script>";
+	return;
 }
 
 $addItem = false;
@@ -19,8 +23,8 @@ if (isset($_GET["addItem"])) {
 }
 
 if (empty($_GET["serverId"]) && !$addItem) {
-	echo "<font color='red'>SERVER ID NOT SELECTED<font/>";
-	die();
+	echo "<div class='alert alert-error'>❌ Server ID not selected</div>";
+	return;
 }
 
 if (!empty($_GET["serverId"])) { $serverId = $_GET["serverId"]; }
@@ -39,52 +43,73 @@ $item = new Item();
 if (isset($serverId)) {
 	$previousId = $serverId-1;
 	$nextId = $serverId+1;
-	echo "<a style='margin-right: 20px;' href='?page=editor&subpage=item&serverId=$previousId'>< previous item<a> <a href='?page=editor&subpage=item&serverId=$nextId'>next item ><a> <br/>";
+	echo "
+	<div style='margin-bottom: 20px;'>
+		<a class='btn' href='?page=editor&subpage=item&serverId=$previousId'>◀ Previous Item</a>
+		<a class='btn' href='?page=editor&subpage=item&serverId=$nextId'>Next Item ▶</a>
+		<a class='btn' href='?page=editor&subpage=items' style='float: right;'>📋 Back to List</a>
+	</div>
+	";
 }
+
 if (!$addItem) {
 	try {
 		$item->loadByServerId($serverId);
 	}
 	catch (Exception $e) {
 		$message = $e->getMessage();
-		echo "<font color='red'>$message</font>";
-		die();
+		echo "<div class='alert alert-error'>❌ $message</div>";
+		return;
 	}
 }
 else {
-	$topIdQuery = "SELECT serverId FROM items ORDER BY serverId DESC";
+	// Get the highest Server ID
+	$topIdQuery = "SELECT serverId FROM items ORDER BY serverId DESC LIMIT 1";
 	$stmt = $db->prepare($topIdQuery);
 	$stmt->execute();
 	$stmt->bind_result($dbServerId);
 	$stmt->fetch();
 	$stmt->close();
 	
-	$newId = $dbServerId+1;
-	if ($newId < 100) {
-		$newId = 100;
+	$newServerId = $dbServerId+1;
+	if ($newServerId < 100) {
+		$newServerId = 100;
+	}
+	
+	// Get the highest Client ID
+	$topClientIdQuery = "SELECT clientId FROM items ORDER BY clientId DESC LIMIT 1";
+	$stmt = $db->prepare($topClientIdQuery);
+	$stmt->execute();
+	$stmt->bind_result($dbClientId);
+	$stmt->fetch();
+	$stmt->close();
+	
+	$newClientId = $dbClientId+1;
+	if ($newClientId < 100) {
+		$newClientId = 100;
 	}
 	
 	if (!$clone) {
-		$item->setServerId($newId);
-		$item->setClientId(100);
+		$item->setServerId($newServerId);
+		$item->setClientId($newClientId);
 		$item->setGroup(0);
 		$item->setFlags(0);
 	}
 	else {
-	try {
-		$item->loadByServerId($serverId);
-	}
-	catch (Exception $e) {
-		$message = $e->getMessage();
-		echo "<font color='red'>$message</font>";
-		die();
-	}
-	
-	$item->setServerId($newId);
+		try {
+			$item->loadByServerId($serverId);
+		}
+		catch (Exception $e) {
+			$message = $e->getMessage();
+			echo "<div class='alert alert-error'>❌ $message</div>";
+			return;
+		}
+		
+		$item->setServerId($newServerId);
 	}
 	
 	$item->save();
-	header("Location: ?page=editor&subpage=item&serverId=$newId");
+	header("Location: ?page=editor&subpage=item&serverId=$newServerId");
 }
 
 include_once("show.php");

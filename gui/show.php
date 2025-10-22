@@ -86,18 +86,6 @@ if (isset($_POST["save"])) {
 	header("Location: ?page=editor&subpage=item&serverId=$savedServerId");
 }
 
-echo "
-<form method='post' action='$self' style='display:inline; float:right;'>
-<input type='hidden' name='clone' value='$serverId'/>
-<input type='submit' name='submit' value='clone this item'/>
-</form>
-<form method='post' action='$self' style='display:inline; float:right;'>
-<input type='hidden' name='delete' value='$serverId'/>
-<input type='submit' name='submit' value='delete this item'/>
-</form>
-<hr/>
-";
-
 $clientId = $item->getClientId();
 $group = $item->getGroup();
 
@@ -135,79 +123,169 @@ $lightColor = $item->getAttributeValueByName(Item::attrLightColor);
 $topOrder = $item->getAttributeValueByName(Item::attrTopOrder);
 
 echo "
-<div style='width: 64px; height: 64px; position: relative'>
-<img style='position: absolute; margin: auto; top: 0; left: 0; right: 0; bottom: 0;' src='spr/$clientId.png'/>
+<div class='action-buttons mb-3'>
+	<form method='post' action='$self' style='display:inline;'>
+		<input type='hidden' name='clone' value='$serverId'/>
+		<button type='submit' class='btn btn-primary'>📋 Clone Item</button>
+	</form>
+	<form method='post' action='$self' style='display:inline;'>
+		<input type='hidden' name='delete' value='$serverId'/>
+		<button type='submit' class='btn btn-danger' onclick='return confirm(\"Are you sure you want to delete this item?\");'>🗑️ Delete Item</button>
+	</form>
 </div>
-<br/><br/>
+
+<div class='item-editor'>
+	<div class='item-preview'>
+		<h3 style='color: var(--text-white); margin-bottom: 20px;'>Item Preview</h3>
+		<div class='item-preview-sprite'>
 ";
 
-echo "
-<form method='post' action='$self'>
-<input type='hidden' name='save'/>
-<td><label>SERVER ID:</label><input type='number' name='serverId' value='$serverId' readonly/><br/>
-<label>CLIENT ID:</label><input type='number' name='clientId' value='$clientId'/><br/>
-<label>GROUP:</label><select name='group'>
-";
-echo "<option value='0'"; if($group == 0) { echo " selected"; } echo ">none</option>";
-echo "<option value='1'"; if($group == 1) { echo " selected"; } echo ">ground</option>";
-echo "<option value='2'"; if($group == 2) { echo " selected"; } echo ">container</option>";
-echo "<option value='11'"; if($group == 11) { echo " selected"; } echo ">splash</option>";
-echo "<option value='12'"; if($group == 12) { echo " selected"; } echo ">fluid</option>";
-echo "
-</select><br/>";
-echo "<table>";
-
-echo "<tr>";
-echo "<td><label>UNPASSABLE:</label><input type='checkbox' name='unpassable'"; if ($flagUnpassable) { echo "checked"; } echo "/></td>";
-echo "<td><label>BLOCK MISSILES:</label><input type='checkbox' name='blockMissiles'"; if ($flagBlockMissiles) { echo "checked"; } echo "/></td>";
-echo "<td><label>BLOCK PATHFINDER:</label><input type='checkbox' name='blockPathfinder'"; if ($flagBlockPathfinder) { echo "checked"; } echo "/></td>";
-echo "<td><label>HAS ELEVATION:</label><input type='checkbox' name='hasElevation'"; if ($flagHasElevation) { echo "checked"; } echo "/></td>";
-echo "</tr>";
-
-echo "<tr>";
-echo "<td><label>USEABLE:</label><input type='checkbox' name='useable'"; if ($flagUseable) { echo "checked"; } echo "/></td>";
-echo "<td><label>PICKUPABLE:</label><input type='checkbox' name='pickupable'"; if ($flagPickupable) { echo "checked"; } echo "/></td>";
-echo "<td><label>MOVEABLE:</label><input type='checkbox' name='moveable'"; if ($flagMoveable) { echo "checked"; } echo "/></td>";
-echo "<td><label>STACKABLE:</label><input type='checkbox' name='stackable'"; if ($flagStackable) { echo "checked"; } echo "/></td>";
-echo "</tr>";
-
-echo "<tr>";
-echo "<td><label>FLOOR CHANGE DOWN:</label><input type='checkbox' name='floorChangeDown'"; if ($flagFloorChangeDown) { echo "checked"; } echo "/></td>";
-echo "<td><label>FLOOR CHANGE NORTH:</label><input type='checkbox' name='floorChangeNorth'"; if ($flagFloorChangeNorth) { echo "checked"; } echo "/></td>";
-echo "<td><label>FLOOR CHANGE EAST:</label><input type='checkbox' name='floorChangeEast'"; if ($flagFloorChangeEast) { echo "checked"; } echo "/></td>";
-echo "<td><label>FLOOR CHANGE SOUTH:</label><input type='checkbox' name='floorChangeSouth'"; if ($flagFloorChangeSouth) { echo "checked"; } echo "/></td>";
-echo "</tr>";
-
-echo "<tr>";
-echo "<td><label>FLOOR CHANGE WEST:</label><input type='checkbox' name='floorChangeWest'"; if ($flagFloorChangeWest) { echo "checked"; } echo "/></td>";
-echo "<td><label>ALWAYS ON TOP:</label><input type='checkbox' name='alwaysOnTop'"; if ($flagAlwaysOnTop) { echo "checked"; } echo "/></td>";
-echo "<td><label>READABLE:</label><input type='checkbox' name='readable'"; if ($flagReadable) { echo "checked"; } echo "/></td>";
-echo "<td><label>ROTABLE:</label><input type='checkbox' name='rotable'"; if ($flagRotable) { echo "checked"; } echo "/></td>";
-echo "</tr>";
-
-echo "<tr>";
-echo "<td><label>HANGABLE:</label><input type='checkbox' name='hangable'"; if ($flagHangable) { echo "checked"; } echo "/></td>";
-echo "<td><label>HOOK EAST:</label><input type='checkbox' name='hookEast'"; if ($flagHookEast) { echo "checked"; } echo "/></td>";
-echo "<td><label>HOOK SOUTH:</label><input type='checkbox' name='hookSouth'"; if ($flagHookSouth) { echo "checked"; } echo "/></td>";
-echo "<td><label>CANNOT DECAY:</label><input type='checkbox' name='cannotDecay'"; if ($flagCannotDecay) { echo "checked"; } echo "/></td>";
-echo "</tr>";
-
-echo "<tr>";
-echo "<td><label>ALLOW DISTREAD:</label><input type='checkbox' name='allowDistread'"; if ($flagAllowDistread) { echo "checked"; } echo "/></td>";
-echo "<td><label>UNUSED:</label><input type='checkbox' name='unused'"; if ($flagUnused) { echo "checked"; } echo "/></td>";
-echo "<td><label>CLIENT CHARGES:</label><input type='checkbox' name='clientCharges'"; if ($flagClientCharges) { echo "checked"; } echo "/></td>";
-echo "<td><label>IGNORE LOOK:</label><input type='checkbox' name='ignoreLook'"; if ($flagIgnoreLook) { echo "checked"; } echo "/></td>";
-echo "</tr>";
-
-echo "</table>";
+$spriteFile = "spr/$clientId.png";
+if (file_exists($spriteFile)) {
+	echo "<img src='$spriteFile' alt='Item $serverId'/>";
+} else {
+	echo "<span style='color: var(--text-muted);'>No Sprite</span>";
+}
 
 echo "
-<td><label>SPEED:</label><input type='number' name='speed' value='$speed'/><br/>
-<td><label>LIGHT LEVEL:</label><input type='number' name='lightLevel' value='$lightLevel'/><br/>
-<td><label>LIGHT COLOR:</label><input type='number' name='lightColor' value='$lightColor'/><br/>
-<td><label>TOP ORDER:</label><input type='number' name='topOrder' value='$topOrder'/><br/>
-<input type='submit' name='submit' value='save this item'/>
-</form>
+		</div>
+		<div class='item-info'>
+			<div class='item-info-row'>
+				<span class='item-info-label'>Server ID</span>
+				<span class='item-info-value'>$serverId</span>
+			</div>
+			<div class='item-info-row'>
+				<span class='item-info-label'>Client ID</span>
+				<span class='item-info-value'>$clientId</span>
+			</div>
+			<div class='item-info-row'>
+				<span class='item-info-label'>Group</span>
+				<span class='item-info-value'>$group</span>
+			</div>
+		</div>
+	</div>
+	
+	<div>
+		<form method='post' action='$self'>
+			<input type='hidden' name='save'/>
+			
+			<div class='card mb-2'>
+				<div class='card-header'>
+					<h3 class='card-title'>Basic Information</h3>
+				</div>
+				<div class='card-body'>
+					<div class='grid grid-2'>
+						<div class='form-group'>
+							<label class='form-label'>Server ID</label>
+							<input type='number' name='serverId' value='$serverId' class='form-input' readonly/>
+						</div>
+						
+						<div class='form-group'>
+							<label class='form-label'>Client ID (Sprite)</label>
+							<input type='number' name='clientId' value='$clientId' class='form-input'/>
+						</div>
+						
+						<div class='form-group'>
+							<label class='form-label'>Group</label>
+							<select name='group' class='form-select'>
+								<option value='0'"; if($group == 0) { echo " selected"; } echo ">None</option>
+								<option value='1'"; if($group == 1) { echo " selected"; } echo ">Ground</option>
+								<option value='2'"; if($group == 2) { echo " selected"; } echo ">Container</option>
+								<option value='11'"; if($group == 11) { echo " selected"; } echo ">Splash</option>
+								<option value='12'"; if($group == 12) { echo " selected"; } echo ">Fluid</option>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class='card mb-2'>
+				<div class='card-header'>
+					<h3 class='card-title'>Item Flags</h3>
+				</div>
+				<div class='card-body'>
+					<div class='form-checkbox-group'>
 ";
 
-?>
+$flags_array = [
+	['name' => 'unpassable', 'label' => 'Unpassable', 'checked' => $flagUnpassable],
+	['name' => 'blockMissiles', 'label' => 'Block Missiles', 'checked' => $flagBlockMissiles],
+	['name' => 'blockPathfinder', 'label' => 'Block Pathfinder', 'checked' => $flagBlockPathfinder],
+	['name' => 'hasElevation', 'label' => 'Has Elevation', 'checked' => $flagHasElevation],
+	['name' => 'useable', 'label' => 'Useable', 'checked' => $flagUseable],
+	['name' => 'pickupable', 'label' => 'Pickupable', 'checked' => $flagPickupable],
+	['name' => 'moveable', 'label' => 'Moveable', 'checked' => $flagMoveable],
+	['name' => 'stackable', 'label' => 'Stackable', 'checked' => $flagStackable],
+	['name' => 'floorChangeDown', 'label' => 'Floor Change Down', 'checked' => $flagFloorChangeDown],
+	['name' => 'floorChangeNorth', 'label' => 'Floor Change North', 'checked' => $flagFloorChangeNorth],
+	['name' => 'floorChangeEast', 'label' => 'Floor Change East', 'checked' => $flagFloorChangeEast],
+	['name' => 'floorChangeSouth', 'label' => 'Floor Change South', 'checked' => $flagFloorChangeSouth],
+	['name' => 'floorChangeWest', 'label' => 'Floor Change West', 'checked' => $flagFloorChangeWest],
+	['name' => 'alwaysOnTop', 'label' => 'Always On Top', 'checked' => $flagAlwaysOnTop],
+	['name' => 'readable', 'label' => 'Readable', 'checked' => $flagReadable],
+	['name' => 'rotable', 'label' => 'Rotable', 'checked' => $flagRotable],
+	['name' => 'hangable', 'label' => 'Hangable', 'checked' => $flagHangable],
+	['name' => 'hookEast', 'label' => 'Hook East', 'checked' => $flagHookEast],
+	['name' => 'hookSouth', 'label' => 'Hook South', 'checked' => $flagHookSouth],
+	['name' => 'cannotDecay', 'label' => 'Cannot Decay', 'checked' => $flagCannotDecay],
+	['name' => 'allowDistread', 'label' => 'Allow Distread', 'checked' => $flagAllowDistread],
+	['name' => 'unused', 'label' => 'Unused', 'checked' => $flagUnused],
+	['name' => 'clientCharges', 'label' => 'Client Charges', 'checked' => $flagClientCharges],
+	['name' => 'ignoreLook', 'label' => 'Ignore Look', 'checked' => $flagIgnoreLook],
+];
+
+foreach ($flags_array as $flag) {
+	echo "
+						<div class='checkbox-wrapper'>
+							<input type='checkbox' id='{$flag['name']}' name='{$flag['name']}'"; if ($flag['checked']) { echo " checked"; } echo "/>
+							<label for='{$flag['name']}'>{$flag['label']}</label>
+						</div>
+	";
+}
+
+echo "
+					</div>
+				</div>
+			</div>
+			
+			<div class='card mb-2'>
+				<div class='card-header'>
+					<h3 class='card-title'>Attributes</h3>
+				</div>
+				<div class='card-body'>
+					<div class='grid grid-2'>
+						<div class='form-group'>
+							<label class='form-label'>Speed</label>
+							<input type='number' name='speed' value='$speed' class='form-input'/>
+						</div>
+						
+						<div class='form-group'>
+							<label class='form-label'>Top Order</label>
+							<input type='number' name='topOrder' value='$topOrder' class='form-input'/>
+						</div>
+						
+						<div class='form-group'>
+							<label class='form-label'>Light Level (0-255)</label>
+							<input type='number' name='lightLevel' value='$lightLevel' min='0' max='255' class='form-input'/>
+						</div>
+						
+						<div class='form-group'>
+							<label class='form-label'>Light Color (0-255)</label>
+							<input type='number' name='lightColor' value='$lightColor' min='0' max='255' class='form-input'/>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class='action-buttons'>
+				<button type='submit' class='btn btn-success' style='font-size: 16px; padding: 12px 30px;'>
+					💾 Save Changes
+				</button>
+				<a href='?page=editor&subpage=items' class='btn' style='font-size: 16px; padding: 12px 30px;'>
+					❌ Cancel
+				</a>
+			</div>
+		</form>
+	</div>
+</div>
+";

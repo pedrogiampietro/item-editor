@@ -1,0 +1,631 @@
+/* ============================================
+   Item Editor - Modern UI Stylesheet
+   ============================================ */
+
+:root {
+    --bg-primary: #242a4d;
+    --bg-secondary: #2c3158;
+    --color-primary: #794de2;
+    --bg-button: #3f4475;
+    --text-color: #7f84b5;
+    --text-white: #ffffff;
+    --text-muted: #9ca0c9;
+    --border-color: #3a406b;
+    --success: #4caf50;
+    --danger: #f44336;
+    --warning: #ff9800;
+    --info: #2196f3;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-color);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+/* ============================================
+   Layout
+   ============================================ */
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.header {
+    background: var(--bg-secondary);
+    padding: 20px 0;
+    border-bottom: 2px solid var(--color-primary);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    margin-bottom: 30px;
+}
+
+.header-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--text-white);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, var(--color-primary), #9b6de8);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+}
+
+/* ============================================
+   Navigation
+   ============================================ */
+
+.nav-main, .nav-sub {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.nav-link, .btn {
+    padding: 10px 20px;
+    background-color: var(--bg-button);
+    color: var(--text-color);
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    border: 1px solid var(--border-color);
+    font-size: 14px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.nav-link:hover, .btn:hover {
+    background-color: var(--color-primary);
+    color: var(--text-white);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(121, 77, 226, 0.3);
+}
+
+.nav-link.active {
+    background-color: var(--color-primary);
+    color: var(--text-white);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--color-primary), #9b6de8);
+    color: var(--text-white);
+    border: none;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #9b6de8, var(--color-primary));
+}
+
+.btn-success {
+    background-color: var(--success);
+    color: var(--text-white);
+    border: none;
+}
+
+.btn-danger {
+    background-color: var(--danger);
+    color: var(--text-white);
+    border: none;
+}
+
+.btn-warning {
+    background-color: var(--warning);
+    color: var(--text-white);
+    border: none;
+}
+
+.btn-small {
+    padding: 6px 12px;
+    font-size: 12px;
+}
+
+/* ============================================
+   Cards
+   ============================================ */
+
+.card {
+    background-color: var(--bg-secondary);
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border-color);
+    margin-bottom: 20px;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.card-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--text-white);
+    margin: 0;
+}
+
+.card-body {
+    color: var(--text-color);
+}
+
+/* ============================================
+   Grid System
+   ============================================ */
+
+.grid {
+    display: grid;
+    gap: 20px;
+}
+
+.grid-2 {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+.grid-3 {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+}
+
+.grid-4 {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+
+.grid-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 15px;
+}
+
+/* ============================================
+   Item Card
+   ============================================ */
+
+.item-card {
+    background-color: var(--bg-secondary);
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+    border: 2px solid var(--border-color);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--text-color);
+    display: block;
+}
+
+.item-card:hover {
+    border-color: var(--color-primary);
+    transform: translateY(-4px);
+    box-shadow: 0 6px 12px rgba(121, 77, 226, 0.3);
+}
+
+.item-sprite {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-primary);
+    border-radius: 6px;
+    position: relative;
+}
+
+.item-sprite img {
+    max-width: 100%;
+    max-height: 100%;
+    image-rendering: pixelated;
+}
+
+.item-id {
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--text-white);
+}
+
+/* ============================================
+   Forms
+   ============================================ */
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-white);
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.form-input, .form-select {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--text-color);
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.form-input:focus, .form-select:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(121, 77, 226, 0.2);
+}
+
+.form-input[readonly] {
+    background-color: var(--bg-button);
+    cursor: not-allowed;
+}
+
+.form-checkbox-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background: var(--bg-primary);
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.checkbox-wrapper:hover {
+    border-color: var(--color-primary);
+}
+
+.checkbox-wrapper input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: var(--color-primary);
+}
+
+.checkbox-wrapper label {
+    cursor: pointer;
+    user-select: none;
+    font-size: 13px;
+    color: var(--text-color);
+    margin: 0;
+}
+
+/* ============================================
+   Table
+   ============================================ */
+
+.table-container {
+    overflow-x: auto;
+    border-radius: 8px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+th {
+    background-color: var(--bg-primary);
+    color: var(--text-white);
+    font-weight: 600;
+}
+
+tr:hover {
+    background-color: rgba(121, 77, 226, 0.1);
+}
+
+/* ============================================
+   Pagination
+   ============================================ */
+
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding: 20px 0;
+}
+
+.pagination-info {
+    color: var(--text-white);
+    font-weight: 500;
+    margin: 0 10px;
+}
+
+.pagination form {
+    display: inline-flex;
+    gap: 5px;
+}
+
+.pagination input[type="number"] {
+    width: 80px;
+    padding: 8px;
+    background-color: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--text-color);
+    text-align: center;
+}
+
+/* ============================================
+   Sprite Gallery
+   ============================================ */
+
+.sprite-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 10px;
+    padding: 20px 0;
+}
+
+.sprite-item {
+    background: var(--bg-secondary);
+    border: 2px solid var(--border-color);
+    border-radius: 6px;
+    padding: 8px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.sprite-item:hover {
+    border-color: var(--color-primary);
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(121, 77, 226, 0.3);
+}
+
+.sprite-item img {
+    width: 100%;
+    height: auto;
+    image-rendering: pixelated;
+    display: block;
+}
+
+/* ============================================
+   Alerts & Messages
+   ============================================ */
+
+.alert {
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border-left: 4px solid;
+}
+
+.alert-error {
+    background-color: rgba(244, 67, 54, 0.1);
+    border-color: var(--danger);
+    color: #ff6b6b;
+}
+
+.alert-success {
+    background-color: rgba(76, 175, 80, 0.1);
+    border-color: var(--success);
+    color: #81c784;
+}
+
+.alert-info {
+    background-color: rgba(33, 150, 243, 0.1);
+    border-color: var(--info);
+    color: #64b5f6;
+}
+
+/* ============================================
+   Editor Specific
+   ============================================ */
+
+.item-editor {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 30px;
+}
+
+@media (max-width: 768px) {
+    .item-editor {
+        grid-template-columns: 1fr;
+    }
+}
+
+.item-preview {
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid var(--border-color);
+}
+
+.item-preview-sprite {
+    width: 128px;
+    height: 128px;
+    margin: 0 auto 20px;
+    background: var(--bg-primary);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--border-color);
+}
+
+.item-preview-sprite img {
+    max-width: 100%;
+    max-height: 100%;
+    image-rendering: pixelated;
+}
+
+.item-info {
+    text-align: left;
+    margin-top: 20px;
+}
+
+.item-info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.item-info-label {
+    color: var(--text-muted);
+    font-size: 12px;
+}
+
+.item-info-value {
+    color: var(--text-white);
+    font-weight: 500;
+}
+
+/* ============================================
+   Navigation Pills
+   ============================================ */
+
+.nav-pills {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.nav-pills .nav-link {
+    padding: 10px 20px;
+}
+
+/* ============================================
+   Action Buttons
+   ============================================ */
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.btn-group {
+    display: flex;
+    gap: 10px;
+}
+
+/* ============================================
+   Utilities
+   ============================================ */
+
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.mt-1 { margin-top: 10px; }
+.mt-2 { margin-top: 20px; }
+.mt-3 { margin-top: 30px; }
+
+.mb-1 { margin-bottom: 10px; }
+.mb-2 { margin-bottom: 20px; }
+.mb-3 { margin-bottom: 30px; }
+
+.float-right {
+    float: right;
+}
+
+.clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* ============================================
+   Scrollbar
+   ============================================ */
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--bg-button);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-primary);
+}
+
+/* ============================================
+   Responsive
+   ============================================ */
+
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .nav-main, .nav-sub {
+        justify-content: center;
+    }
+    
+    .grid-items {
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    }
+    
+    .form-checkbox-group {
+        grid-template-columns: 1fr;
+    }
+}
