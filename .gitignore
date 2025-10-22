@@ -1,0 +1,40 @@
+# Environment files
+.env
+.env.local
+.env.production
+
+# Vercel
+.vercel
+
+config.php
+
+# Dependencies
+node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# PHP
+vendor/
+
+# Database
+*.sql.gz
+
+# Temporary files
+in/*.otb
+debug_item.php
+temp/
+
+# Config with sensitive data (use .env instead)
+# config.php (uncomment if you want to ignore it)
